@@ -54,11 +54,11 @@ function setupEventListeners() {
 }
 
 async function setupContext() {
-  const guitar = await getGuitar()
+  const voice = await getVoice()
   if (context.state === 'suspended') {
     await context.resume()
   }
-  const source = context.createMediaStreamSource(guitar)
+  const source = context.createMediaStreamSource(voice)
   source
     .connect(bassEQ)
     .connect(midEQ)
@@ -68,7 +68,7 @@ async function setupContext() {
     .connect(context.destination)
 }
 
-function getGuitar() {
+function getVoice() {
   return navigator.mediaDevices.getUserMedia({
     audio: {
       echoCancellation: false,
@@ -93,10 +93,10 @@ function drawVisualizer() {
   canvasContext.clearRect(0, 0, width, height)
 
   dataArray.forEach((item, index) => {
-    const y = item / 255 * height / 2
+    const y = item / 255 * height*2/3
     const x = barWidth * index
 
-    canvasContext.fillStyle = `hsl(${y / height * 400}, 100%, 50%)`
+    // canvasContext.fillStyle = `hsl(${y / height * 400}, 100%, 50%)`
     canvasContext.fillRect(x, height - y, barWidth, y)
   })
 }
